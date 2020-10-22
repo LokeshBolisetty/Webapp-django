@@ -7,6 +7,7 @@ class mentor(models.Model):
     #courses = models.ManyToManyField(Courses,help_text="Enter all the courses you are dealing with")
     def __str__(self):
         return self.name
+    photo = models.ImageField(upload_to='./photos',blank=True)
 
 class Course(models.Model):
     title = models.CharField(max_length=100)
