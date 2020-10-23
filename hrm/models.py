@@ -33,6 +33,9 @@ class Course(models.Model):
     #Description of the course can be provided.
     description = models.TextField()
 
+    #This field allows to add photos to each course
+    photo = models.ImageField(upload_to='./coursephotos',blank=True)
+
     #This links the courses to its mentors.
     mentor = models.ManyToManyField(mentor,help_text="Enter the names of the mentors of this course.")
 
