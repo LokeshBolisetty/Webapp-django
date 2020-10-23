@@ -6,10 +6,11 @@ from accounts.api import Registrationlist
 from appointment.api import Appointmentlist,Appointmentid,Appointmentuserid,Appointmentmentorid
 #from accounts.serializers import UserSerializer
 from django.conf.urls import include
-import rest_framework.urls
 
 urlpatterns = [
+    #By defualt the home page will be the courselist. This is setup because courselistview does not ask permissions to access the data
     path('admin/', admin.site.urls),
+    url('',Courselist.as_view(),name='courselist'),
     url(r'^api/mentors/$',mentorlist.as_view(),name='mentorlist'),
     url(r'^api/courses/$',Courselist.as_view(),name='courselist'),
     url(r'^api/courses/(?P<course_id>\d+)/$',courseid.as_view(),name='course-id'),

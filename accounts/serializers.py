@@ -21,10 +21,16 @@ from django.contrib.auth import get_user_model
 #     class Meta:
 #         model = get_user_model()
 
+# This is the RegistrationSerializer that will be used in api.py
+# It extends the ModelSerializer class from django rest framework.
+# Serializer converts sql data to json data facilitating the use in web apps
+# It takes data from the User table in the database and parses the fields mentioned in 'fields' Any extra fields required can be added there itself.
 class RegistrationSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['username','first_name','last_name','password','email','is_staff']
+    #These are overriden methods given by django itself. They are used so that when new user is added, his password is saved after encrypting. 
+    #One can add methods to directly add users to the User model. But passwords will not be crypted.
     def create(self, validated_data):
         password = validated_data.pop('password', None)
         instance = self.Meta.model(**validated_data)
@@ -33,6 +39,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
+    #Password changes are taken care of
     def update(self, instance, validated_data):
         for attr, value in validated_data.items():
             if attr == 'password':
@@ -42,6 +49,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
+#This can be used to log in to one's account. This uses username and password to login. It can be changed to emaial and password or anything else too if required.
 class LoginSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
